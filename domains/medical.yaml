@@ -1,0 +1,103 @@
+# Medical Domain Configuration
+# This file defines templates and categories for medical support queries
+
+domain: medical
+languages: [pl, en]
+
+categories:
+  test_results:
+    weight: 0.4
+    templates:
+      pl:
+        - "Czy wynik badania {test_name} w granicach normy? Wartość: {value}."
+        - "Proszę o interpretację wyniku {test_name}: {value} {unit}."
+        - "Otrzymałem wynik {test_name} o wartości {value} {unit}. Czy to prawidłowy poziom?"
+        - "Badanie {test_name} wykazało wartość {value}. Proszę o konsultację."
+        - "Czy wartość {value} {unit} dla {test_name} wymaga dodatkowych badań?"
+      en:
+        - "Is my {test_name} test result normal? Value: {value}."
+        - "Please interpret {test_name} result: {value} {unit}."
+        - "Received {test_name} result of {value} {unit}. Is this normal level?"
+        - "{test_name} test showed value {value}. Please advise."
+        - "Does {value} {unit} for {test_name} require additional tests?"
+    faker_vars:
+      test_name:
+        - "morfologia"
+        - "cholesterol"
+        - "glukoza"
+        - "TSH"
+        - "hemoglobina"
+        - "kreatynina"
+        - "ALT"
+        - "AST"
+      value: [90, 120, 150, 200, 5.5, 6.2, 4.8, 3.2, 180, 220]
+      unit:
+        - "mg/dl"
+        - "mmol/L"
+        - "mIU/L"
+        - "g/dL"
+        - "U/L"
+
+  appointment_scheduling:
+    weight: 0.3
+    templates:
+      pl:
+        - "Chciałbym umówić wizytę do {doctor_specialty} w terminie {preferred_date}."
+        - "Czy możliwa jest konsultacja z {doctor_specialty} w trybie pilnym?"
+        - "Proszę o umówienie wizyty kontrolnej u {doctor_specialty} na {preferred_date}."
+        - "Potrzebuję terminu do {doctor_specialty}. Preferowany termin: {preferred_date}."
+        - "Czy {doctor_specialty} ma wolny termin w dniu {preferred_date}?"
+      en:
+        - "I'd like to schedule appointment with {doctor_specialty} on {preferred_date}."
+        - "Is urgent consultation with {doctor_specialty} possible?"
+        - "Please schedule follow-up with {doctor_specialty} for {preferred_date}."
+        - "Need appointment with {doctor_specialty}. Preferred date: {preferred_date}."
+        - "Does {doctor_specialty} have availability on {preferred_date}?"
+    faker_vars:
+      doctor_specialty:
+        - "kardiolog"
+        - "dermatolog"
+        - "endokrynolog"
+        - "neurolog"
+        - "ortopeda"
+        - "laryngolog"
+        - "okulista"
+      preferred_date:
+        - "2024-11-01"
+        - "2024-11-05"
+        - "2024-11-10"
+        - "2024-11-15"
+        - "2024-11-20"
+        - "2024-11-25"
+
+  medication_inquiry:
+    weight: 0.3
+    templates:
+      pl:
+        - "Czy lek {medication} można stosować z {other_medication}?"
+        - "Jakie są skutki uboczne leku {medication}?"
+        - "Przyjmuję {medication} i chciałbym dodać {other_medication}. Czy to bezpieczne?"
+        - "Czy {medication} ma interakcje z {other_medication}?"
+        - "Proszę o informację o działaniach niepożądanych {medication}."
+      en:
+        - "Can {medication} be taken with {other_medication}?"
+        - "What are side effects of {medication}?"
+        - "I'm taking {medication} and want to add {other_medication}. Is it safe?"
+        - "Does {medication} interact with {other_medication}?"
+        - "Please provide information about adverse effects of {medication}."
+    faker_vars:
+      medication:
+        - "Aspirin"
+        - "Metformin"
+        - "Lisinopril"
+        - "Atorvastatin"
+        - "Levothyroxine"
+        - "Amlodipine"
+        - "Omeprazole"
+      other_medication:
+        - "Ibuprofen"
+        - "Warfarin"
+        - "Omeprazole"
+        - "Clopidogrel"
+        - "Simvastatin"
+        - "Paracetamol"

@@ -1,0 +1,135 @@
+# Banking Domain Configuration
+# This file defines templates and categories for banking support tickets
+
+domain: banking
+languages: [pl, en]
+
+categories:
+  system_error:
+    weight: 0.3
+    templates:
+      pl:
+        - "Nie mogę zalogować się do systemu {system_name} od {days} dni. Kod błędu: {error_code}."
+        - "System {system_name} zwraca błąd {error_code} przy próbie wykonania przelewu."
+        - "Podczas logowania do {system_name} pojawia się komunikat: {error_code}. Proszę o pomoc."
+        - "System {system_name} nie działa od {days} dni. Każda próba kończy się błędem {error_code}."
+        - "Nie mogę wykonać operacji w systemie {system_name}. Błąd: {error_code}."
+      en:
+        - "Unable to access {system_name} for {days} days. Error code: {error_code}."
+        - "System {system_name} returns error {error_code} during transfer attempt."
+        - "Getting error message {error_code} when trying to log into {system_name}."
+        - "{system_name} has been down for {days} days with error {error_code}."
+        - "Cannot complete operation in {system_name}. Error: {error_code}."
+    faker_vars:
+      system_name:
+        - "Internet Banking"
+        - "Mobile App"
+        - "ATM Network"
+        - "Core Banking System"
+        - "Payment Gateway"
+      error_code:
+        - "500"
+        - "503"
+        - "AUTH_FAILED"
+        - "TIMEOUT"
+        - "CONNECTION_ERROR"
+        - "INVALID_SESSION"
+      days: [1, 2, 3, 5, 7, 10, 14]
+
+  status_check:
+    weight: 0.25
+    templates:
+      pl:
+        - "Czy system {system_name} działał wczoraj o godzinie {time}?"
+        - "Proszę o sprawdzenie statusu systemu {system_name} w dniu {date}."
+        - "Czy w dniu {date} o {time} wystąpiła awaria systemu {system_name}?"
+        - "Potrzebuję potwierdzenia dostępności systemu {system_name} w dniu {date}."
+        - "Proszę o historię dostępności {system_name} dla daty {date}."
+      en:
+        - "Was {system_name} operational yesterday at {time}?"
+        - "Please check {system_name} status on {date}."
+        - "Did {system_name} experience outage on {date} at {time}?"
+        - "Need confirmation of {system_name} availability on {date}."
+        - "Please provide {system_name} uptime history for {date}."
+    faker_vars:
+      system_name:
+        - "Core Banking"
+        - "Payment Gateway"
+        - "Card Processing"
+        - "Online Banking"
+        - "Mobile Banking"
+      time:
+        - "10:00"
+        - "14:30"
+        - "18:45"
+        - "09:15"
+        - "16:00"
+        - "22:30"
+      date:
+        - "2024-10-20"
+        - "2024-10-21"
+        - "2024-10-22"
+        - "2024-10-23"
+        - "2024-10-24"
+
+  transaction_issue:
+    weight: 0.25
+    templates:
+      pl:
+        - "Przelew na kwotę {amount} PLN do kontrahenta {recipient} nie dotarł."
+        - "Transakcja nr {transaction_id} została odrzucona. Proszę o wyjaśnienie."
+        - "Płatność {amount} PLN dla {recipient} nie została zaksięgowana."
+        - "Brak potwierdzenia transakcji {transaction_id} na kwotę {amount} PLN."
+        - "Przelew {amount} PLN do {recipient} jest w statusie oczekiwania od {days} dni."
+      en:
+        - "Transfer of {amount} PLN to {recipient} has not arrived."
+        - "Transaction {transaction_id} was rejected. Please explain."
+        - "Payment of {amount} PLN to {recipient} was not posted."
+        - "No confirmation for transaction {transaction_id} amount {amount} PLN."
+        - "Transfer of {amount} PLN to {recipient} pending for {days} days."
+    faker_vars:
+      amount: [100, 500, 1000, 2500, 5000, 10000, 15000, 25000]
+      recipient:
+        - "ABC Corp"
+        - "XYZ Ltd"
+        - "John Doe"
+        - "Global Services Inc"
+        - "Tech Solutions"
+        - "Market Leader SA"
+      transaction_id:
+        - "TXN-001234"
+        - "TXN-005678"
+        - "TXN-009876"
+        - "TXN-012345"
+        - "TXN-067890"
+      days: [1, 2, 3, 5, 7]
+
+  account_access:
+    weight: 0.2
+    templates:
+      pl:
+        - "Nie mogę uzyskać dostępu do konta {account_number} od {days} dni."
+        - "Karta {card_type} została zablokowana. Proszę o odblokowanie."
+        - "Hasło do konta {account_number} zostało zresetowane bez mojej wiedzy."
+        - "Brak dostępu do konta {account_number}. Karta {card_type} nie działa."
+        - "Proszę o przywrócenie dostępu do konta {account_number}."
+      en:
+        - "Cannot access account {account_number} for {days} days."
+        - "{card_type} card has been blocked. Please unblock."
+        - "Password for account {account_number} was reset without my knowledge."
+        - "No access to account {account_number}. {card_type} card not working."
+        - "Please restore access to account {account_number}."
+    faker_vars:
+      account_number:
+        - "1234567890"
+        - "0987654321"
+        - "1122334455"
+        - "5566778899"
+        - "9988776655"
+      card_type:
+        - "Visa"
+        - "Mastercard"
+        - "Debit Card"
+        - "Credit Card"
+        - "Business Card"
+      days: [1, 2, 3, 5, 7, 10]
