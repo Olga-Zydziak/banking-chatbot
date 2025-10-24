@@ -1,0 +1,76 @@
+# Domain Configuration Template
+# Copy this file to create a new domain (e.g., legal.yaml, insurance.yaml)
+
+# Domain name (lowercase, underscores only, must match filename without .yaml)
+domain: your_domain_name
+
+# Supported languages (pl = Polish, en = English)
+languages: [pl, en]
+
+# Categories define different types of support tickets
+# Weights must sum to 1.0 across all categories
+categories:
+
+  # Example Category 1
+  category_name_1:
+    # Probability of selecting this category (0.0 to 1.0)
+    weight: 0.4
+
+    # Templates for each language
+    # Use {variable_name} for placeholders that will be filled from faker_vars
+    templates:
+      pl:
+        - "Polski szablon 1 z {variable1} i {variable2}."
+        - "Polski szablon 2 używający {variable1}."
+      en:
+        - "English template 1 with {variable1} and {variable2}."
+        - "English template 2 using {variable1}."
+
+    # Variables that can be used in templates
+    # Each variable must have at least one possible value
+    faker_vars:
+      variable1:
+        - "value1"
+        - "value2"
+        - "value3"
+      variable2: [100, 200, 300]  # Can use YAML list syntax
+
+  # Example Category 2
+  category_name_2:
+    weight: 0.35
+    templates:
+      pl:
+        - "Inny polski szablon z {another_var}."
+      en:
+        - "Another English template with {another_var}."
+    faker_vars:
+      another_var:
+        - "option_a"
+        - "option_b"
+
+  # Example Category 3
+  category_name_3:
+    weight: 0.25
+    templates:
+      pl:
+        - "Trzeci szablon po polsku."
+      en:
+        - "Third template in English."
+    faker_vars: {}  # No variables needed if templates are static
+
+# VALIDATION RULES:
+# 1. Domain name must match ^[a-z_]+$ pattern
+# 2. All languages must be valid codes (pl, en)
+# 3. Category weights must sum to 1.0 (±0.01 tolerance)
+# 4. Each category must have templates for ALL domain languages
+# 5. Each template variable {var} must be defined in faker_vars
+# 6. Each faker_vars list must have at least one value
+# 7. Category names should be descriptive (e.g., "system_error", "billing_inquiry")
+
+# BEST PRACTICES:
+# 1. Use 3-5 categories per domain for good variety
+# 2. Provide 3-10 template variations per language per category
+# 3. Make templates realistic and domain-specific
+# 4. Use descriptive variable names (e.g., {account_number} not {var1})
+# 5. Include both simple and complex templates
+# 6. Test your YAML with: python -m pdf_generator validate your_domain_name

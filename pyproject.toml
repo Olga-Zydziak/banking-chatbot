@@ -1,0 +1,194 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdf-generator"
+version = "1.0.0"
+description = "Production-grade synthetic PDF generator for knowledge base training"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "PDF Generator Team", email = "team@example.com"}
+]
+keywords = ["pdf", "generator", "synthetic", "documents", "knowledge-base"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "pydantic>=2.0.0,<3.0.0",
+    "typer>=0.9.0,<1.0.0",
+    "rich>=13.0.0,<14.0.0",
+    "jinja2>=3.1.0,<4.0.0",
+    "pyyaml>=6.0.0,<7.0.0",
+    "reportlab>=4.0.0,<5.0.0",
+    "faker>=20.0.0,<21.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0,<8.0.0",
+    "pytest-cov>=4.1.0,<5.0.0",
+    "mypy>=1.6.0,<2.0.0",
+    "ruff>=0.1.0,<1.0.0",
+    "types-PyYAML>=6.0.0",
+]
+
+[project.scripts]
+pdf-generator = "pdf_generator.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pdf_generator = ["py.typed"]
+
+# Ruff configuration
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # pyflakes
+    "I",     # isort
+    "N",     # pep8-naming
+    "UP",    # pyupgrade
+    "ANN",   # flake8-annotations
+    "B",     # flake8-bugbear
+    "C4",    # flake8-comprehensions
+    "DTZ",   # flake8-datetimez
+    "T10",   # flake8-debugger
+    "ISC",   # flake8-implicit-str-concat
+    "ICN",   # flake8-import-conventions
+    "PIE",   # flake8-pie
+    "PT",    # flake8-pytest-style
+    "Q",     # flake8-quotes
+    "RSE",   # flake8-raise
+    "RET",   # flake8-return
+    "SIM",   # flake8-simplify
+    "TID",   # flake8-tidy-imports
+    "ARG",   # flake8-unused-arguments
+    "PTH",   # flake8-use-pathlib
+    "ERA",   # eradicate
+    "PL",    # pylint
+    "RUF",   # ruff-specific rules
+]
+
+ignore = [
+    "ANN101",  # Missing type annotation for self in method
+    "ANN102",  # Missing type annotation for cls in classmethod
+    "PLR0913", # Too many arguments to function call
+    "PLR2004", # Magic value used in comparison
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN", "PLR2004", "S101", "DTZ", "PT006", "RUF043", "ARG", "B007"]  # Allow missing annotations, asserts, datetime, regex, and unused args in tests
+"src/pdf_generator/cli.py" = ["PLR0915", "B008", "E501", "B904"]  # Allow long functions, default args, long lines, and raise without from for CLI
+"src/pdf_generator/__init__.py" = ["RUF022"]  # Allow unsorted __all__ (organized by category)
+"src/pdf_generator/models.py" = ["E501"]  # Allow long docstring lines
+"src/pdf_generator/template_engine.py" = ["E501"]  # Allow long docstring lines
+"src/pdf_generator/pdf_renderer.py" = ["ANN401", "PLC0415", "DTZ005", "E501", "ARG002"]  # Allow Any for ReportLab, late imports, datetime for timestamps, and unused args for ReportLab callbacks
+"src/pdf_generator/utils.py" = ["PLC0415", "PLW2901", "PTH123"]  # Allow late import, loop var reassignment, and open() for file descriptors
+"src/pdf_generator/domain_manager.py" = ["ANN401"]  # Allow Any for raw YAML data
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+# MyPy configuration
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_any_generics = false  # Relaxed for Pydantic
+disallow_subclassing_any = false  # Relaxed for Pydantic BaseModel
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = false  # Relaxed for Pydantic validators and Typer commands
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = false  # Relaxed to avoid warnings for missing imports
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+strict_concatenate = true
+
+[[tool.mypy.overrides]]
+module = [
+    "reportlab.*",
+    "faker.*",
+    "typer.*",
+    "rich.*",
+    "jinja2.*",
+    "pytest.*",
+    "pydantic.*",
+    "yaml.*",
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "pdf_generator.models",
+    "pdf_generator.cli",
+]
+disallow_subclassing_any = false
+disallow_untyped_decorators = false
+
+# Pytest configuration
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=pdf_generator",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=80",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow-running tests",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
